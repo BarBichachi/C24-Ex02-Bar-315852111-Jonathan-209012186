@@ -64,6 +64,7 @@
             this.tabPageProfileFavoriteTeams = new System.Windows.Forms.TabPage();
             this.flowLayoutPanelFavoriteTeams = new System.Windows.Forms.FlowLayoutPanel();
             this.panelProfileUserDetails = new System.Windows.Forms.Panel();
+            this.linkLabelEditProfile = new System.Windows.Forms.LinkLabel();
             this.labelProfileNumOfFriends = new System.Windows.Forms.Label();
             this.labelProfileFullName = new System.Windows.Forms.Label();
             this.pictureBoxProfilePicture = new System.Windows.Forms.PictureBox();
@@ -75,7 +76,6 @@
             this.buttonToolbarFactGenerator = new System.Windows.Forms.Button();
             this.buttonToolbarExit = new System.Windows.Forms.Button();
             this.pictureboxToolbarFacebookLogo = new System.Windows.Forms.PictureBox();
-            this.linkLabelEditProfile = new System.Windows.Forms.LinkLabel();
             this.panelMain.SuspendLayout();
             this.panelProfileTabs.SuspendLayout();
             this.tabControlProfileTabs.SuspendLayout();
@@ -121,7 +121,7 @@
             this.panelProfileTabs.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelProfileTabs.Location = new System.Drawing.Point(0, 600);
             this.panelProfileTabs.Name = "panelProfileTabs";
-            this.panelProfileTabs.Size = new System.Drawing.Size(1217, 1270);
+            this.panelProfileTabs.Size = new System.Drawing.Size(1222, 1270);
             this.panelProfileTabs.TabIndex = 4;
             // 
             // tabControlProfileTabs
@@ -137,7 +137,7 @@
             this.tabControlProfileTabs.Location = new System.Drawing.Point(0, 0);
             this.tabControlProfileTabs.Name = "tabControlProfileTabs";
             this.tabControlProfileTabs.SelectedIndex = 0;
-            this.tabControlProfileTabs.Size = new System.Drawing.Size(1217, 1270);
+            this.tabControlProfileTabs.Size = new System.Drawing.Size(1222, 1270);
             this.tabControlProfileTabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControlProfileTabs.TabIndex = 3;
             this.tabControlProfileTabs.SelectedIndexChanged += new System.EventHandler(this.tabControlProfileTabs_SelectedIndexChanged);
@@ -150,7 +150,7 @@
             this.tabPageProfilePosts.Location = new System.Drawing.Point(4, 31);
             this.tabPageProfilePosts.Name = "tabPageProfilePosts";
             this.tabPageProfilePosts.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProfilePosts.Size = new System.Drawing.Size(1209, 1235);
+            this.tabPageProfilePosts.Size = new System.Drawing.Size(1214, 1235);
             this.tabPageProfilePosts.TabIndex = 0;
             this.tabPageProfilePosts.Text = "Posts";
             this.tabPageProfilePosts.UseVisualStyleBackColor = true;
@@ -160,7 +160,7 @@
             this.panelRightProfilePosts.Controls.Add(this.labelProfilePosts);
             this.panelRightProfilePosts.Controls.Add(this.flowLayoutPanelPosts);
             this.panelRightProfilePosts.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelRightProfilePosts.Location = new System.Drawing.Point(510, 3);
+            this.panelRightProfilePosts.Location = new System.Drawing.Point(515, 3);
             this.panelRightProfilePosts.Name = "panelRightProfilePosts";
             this.panelRightProfilePosts.Size = new System.Drawing.Size(696, 1229);
             this.panelRightProfilePosts.TabIndex = 1;
@@ -171,7 +171,7 @@
             this.labelProfilePosts.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelProfilePosts.Location = new System.Drawing.Point(13, 13);
             this.labelProfilePosts.Name = "labelProfilePosts";
-            this.labelProfilePosts.Size = new System.Drawing.Size(102, 37);
+            this.labelProfilePosts.Size = new System.Drawing.Size(88, 31);
             this.labelProfilePosts.TabIndex = 6;
             this.labelProfilePosts.Text = "Posts";
             // 
@@ -215,7 +215,7 @@
             this.linkLabelProfilePostsSeeAllFriends.AutoSize = true;
             this.linkLabelProfilePostsSeeAllFriends.Location = new System.Drawing.Point(318, 20);
             this.linkLabelProfilePostsSeeAllFriends.Name = "linkLabelProfilePostsSeeAllFriends";
-            this.linkLabelProfilePostsSeeAllFriends.Size = new System.Drawing.Size(150, 26);
+            this.linkLabelProfilePostsSeeAllFriends.Size = new System.Drawing.Size(128, 24);
             this.linkLabelProfilePostsSeeAllFriends.TabIndex = 3;
             this.linkLabelProfilePostsSeeAllFriends.TabStop = true;
             this.linkLabelProfilePostsSeeAllFriends.Text = "See all friends";
@@ -227,7 +227,7 @@
             this.labelProfilePostsFriends.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelProfilePostsFriends.Location = new System.Drawing.Point(13, 12);
             this.labelProfilePostsFriends.Name = "labelProfilePostsFriends";
-            this.labelProfilePostsFriends.Size = new System.Drawing.Size(131, 37);
+            this.labelProfilePostsFriends.Size = new System.Drawing.Size(112, 31);
             this.labelProfilePostsFriends.TabIndex = 0;
             this.labelProfilePostsFriends.Text = "Friends";
             // 
@@ -243,9 +243,9 @@
             // 
             // flowLayoutPanelProfilePostsPhotos
             // 
-            this.flowLayoutPanelProfilePostsPhotos.Location = new System.Drawing.Point(20, 66);
+            this.flowLayoutPanelProfilePostsPhotos.Location = new System.Drawing.Point(20, 47);
             this.flowLayoutPanelProfilePostsPhotos.Name = "flowLayoutPanelProfilePostsPhotos";
-            this.flowLayoutPanelProfilePostsPhotos.Size = new System.Drawing.Size(448, 408);
+            this.flowLayoutPanelProfilePostsPhotos.Size = new System.Drawing.Size(448, 450);
             this.flowLayoutPanelProfilePostsPhotos.TabIndex = 4;
             // 
             // linkLabelProfilePostsSeeAllPhotos
@@ -253,7 +253,7 @@
             this.linkLabelProfilePostsSeeAllPhotos.AutoSize = true;
             this.linkLabelProfilePostsSeeAllPhotos.Location = new System.Drawing.Point(318, 20);
             this.linkLabelProfilePostsSeeAllPhotos.Name = "linkLabelProfilePostsSeeAllPhotos";
-            this.linkLabelProfilePostsSeeAllPhotos.Size = new System.Drawing.Size(150, 26);
+            this.linkLabelProfilePostsSeeAllPhotos.Size = new System.Drawing.Size(129, 24);
             this.linkLabelProfilePostsSeeAllPhotos.TabIndex = 3;
             this.linkLabelProfilePostsSeeAllPhotos.TabStop = true;
             this.linkLabelProfilePostsSeeAllPhotos.Text = "See all photos";
@@ -265,7 +265,7 @@
             this.labelProfilePostsPhotos.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelProfilePostsPhotos.Location = new System.Drawing.Point(13, 12);
             this.labelProfilePostsPhotos.Name = "labelProfilePostsPhotos";
-            this.labelProfilePostsPhotos.Size = new System.Drawing.Size(123, 37);
+            this.labelProfilePostsPhotos.Size = new System.Drawing.Size(105, 31);
             this.labelProfilePostsPhotos.TabIndex = 0;
             this.labelProfilePostsPhotos.Text = "Photos";
             // 
@@ -288,7 +288,7 @@
             this.labelProfilePostsAboutGender.AutoSize = true;
             this.labelProfilePostsAboutGender.Location = new System.Drawing.Point(56, 168);
             this.labelProfilePostsAboutGender.Name = "labelProfilePostsAboutGender";
-            this.labelProfilePostsAboutGender.Size = new System.Drawing.Size(84, 26);
+            this.labelProfilePostsAboutGender.Size = new System.Drawing.Size(74, 24);
             this.labelProfilePostsAboutGender.TabIndex = 2;
             this.labelProfilePostsAboutGender.Text = "Gender";
             // 
@@ -307,7 +307,7 @@
             this.labelProfilePostsAboutCity.AutoSize = true;
             this.labelProfilePostsAboutCity.Location = new System.Drawing.Point(56, 125);
             this.labelProfilePostsAboutCity.Name = "labelProfilePostsAboutCity";
-            this.labelProfilePostsAboutCity.Size = new System.Drawing.Size(137, 26);
+            this.labelProfilePostsAboutCity.Size = new System.Drawing.Size(120, 24);
             this.labelProfilePostsAboutCity.TabIndex = 2;
             this.labelProfilePostsAboutCity.Text = "Lives in XXX";
             // 
@@ -326,7 +326,7 @@
             this.labelProfilePostsAboutBirthday.AutoSize = true;
             this.labelProfilePostsAboutBirthday.Location = new System.Drawing.Point(56, 80);
             this.labelProfilePostsAboutBirthday.Name = "labelProfilePostsAboutBirthday";
-            this.labelProfilePostsAboutBirthday.Size = new System.Drawing.Size(243, 26);
+            this.labelProfilePostsAboutBirthday.Size = new System.Drawing.Size(215, 24);
             this.labelProfilePostsAboutBirthday.TabIndex = 2;
             this.labelProfilePostsAboutBirthday.Text = "Birthday - XX/XX/XXXX";
             // 
@@ -346,7 +346,7 @@
             this.labelProfilePostsAbout.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelProfilePostsAbout.Location = new System.Drawing.Point(13, 13);
             this.labelProfilePostsAbout.Name = "labelProfilePostsAbout";
-            this.labelProfilePostsAbout.Size = new System.Drawing.Size(107, 37);
+            this.labelProfilePostsAbout.Size = new System.Drawing.Size(90, 31);
             this.labelProfilePostsAbout.TabIndex = 0;
             this.labelProfilePostsAbout.Text = "About";
             // 
@@ -456,8 +456,19 @@
             this.panelProfileUserDetails.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelProfileUserDetails.Location = new System.Drawing.Point(0, 400);
             this.panelProfileUserDetails.Name = "panelProfileUserDetails";
-            this.panelProfileUserDetails.Size = new System.Drawing.Size(1217, 200);
+            this.panelProfileUserDetails.Size = new System.Drawing.Size(1222, 200);
             this.panelProfileUserDetails.TabIndex = 2;
+            // 
+            // linkLabelEditProfile
+            // 
+            this.linkLabelEditProfile.AutoSize = true;
+            this.linkLabelEditProfile.Location = new System.Drawing.Point(1079, 22);
+            this.linkLabelEditProfile.Name = "linkLabelEditProfile";
+            this.linkLabelEditProfile.Size = new System.Drawing.Size(99, 24);
+            this.linkLabelEditProfile.TabIndex = 2;
+            this.linkLabelEditProfile.TabStop = true;
+            this.linkLabelEditProfile.Text = "Edit Profile";
+            this.linkLabelEditProfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelEditProfile_LinkClicked);
             // 
             // labelProfileNumOfFriends
             // 
@@ -466,7 +477,7 @@
             this.labelProfileNumOfFriends.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.labelProfileNumOfFriends.Location = new System.Drawing.Point(206, 71);
             this.labelProfileNumOfFriends.Name = "labelProfileNumOfFriends";
-            this.labelProfileNumOfFriends.Size = new System.Drawing.Size(126, 29);
+            this.labelProfileNumOfFriends.Size = new System.Drawing.Size(103, 25);
             this.labelProfileNumOfFriends.TabIndex = 1;
             this.labelProfileNumOfFriends.Text = "XX friends";
             this.labelProfileNumOfFriends.Visible = false;
@@ -477,7 +488,7 @@
             this.labelProfileFullName.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelProfileFullName.Location = new System.Drawing.Point(204, 22);
             this.labelProfileFullName.Name = "labelProfileFullName";
-            this.labelProfileFullName.Size = new System.Drawing.Size(201, 37);
+            this.labelProfileFullName.Size = new System.Drawing.Size(175, 31);
             this.labelProfileFullName.TabIndex = 1;
             this.labelProfileFullName.Text = "Israel Israeli";
             this.labelProfileFullName.Visible = false;
@@ -499,7 +510,7 @@
             this.panelProfileCoverImage.Location = new System.Drawing.Point(0, 0);
             this.panelProfileCoverImage.Margin = new System.Windows.Forms.Padding(0);
             this.panelProfileCoverImage.Name = "panelProfileCoverImage";
-            this.panelProfileCoverImage.Size = new System.Drawing.Size(1217, 400);
+            this.panelProfileCoverImage.Size = new System.Drawing.Size(1222, 400);
             this.panelProfileCoverImage.TabIndex = 1;
             // 
             // pictureBoxProfileCover
@@ -507,7 +518,7 @@
             this.pictureBoxProfileCover.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxProfileCover.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxProfileCover.Name = "pictureBoxProfileCover";
-            this.pictureBoxProfileCover.Size = new System.Drawing.Size(1217, 400);
+            this.pictureBoxProfileCover.Size = new System.Drawing.Size(1222, 400);
             this.pictureBoxProfileCover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxProfileCover.TabIndex = 0;
             this.pictureBoxProfileCover.TabStop = false;
@@ -518,7 +529,7 @@
             this.labelLoadingCoffeeReminder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLoadingCoffeeReminder.Location = new System.Drawing.Point(470, 337);
             this.labelLoadingCoffeeReminder.Name = "labelLoadingCoffeeReminder";
-            this.labelLoadingCoffeeReminder.Size = new System.Drawing.Size(372, 20);
+            this.labelLoadingCoffeeReminder.Size = new System.Drawing.Size(341, 17);
             this.labelLoadingCoffeeReminder.TabIndex = 1;
             this.labelLoadingCoffeeReminder.Text = "Psst.. it\'s time to a take a sip of your coffee :)";
             // 
@@ -528,7 +539,7 @@
             this.labelLoadingNotifier.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLoadingNotifier.Location = new System.Drawing.Point(480, 356);
             this.labelLoadingNotifier.Name = "labelLoadingNotifier";
-            this.labelLoadingNotifier.Size = new System.Drawing.Size(352, 37);
+            this.labelLoadingNotifier.Size = new System.Drawing.Size(302, 31);
             this.labelLoadingNotifier.TabIndex = 1;
             this.labelLoadingNotifier.Text = "Loading.. Please wait!";
             // 
@@ -577,24 +588,13 @@
             this.pictureboxToolbarFacebookLogo.TabStop = false;
             this.pictureboxToolbarFacebookLogo.Click += new System.EventHandler(this.ToolbarFacebookLogo_Click);
             // 
-            // linkLabelEditProfile
-            // 
-            this.linkLabelEditProfile.AutoSize = true;
-            this.linkLabelEditProfile.Location = new System.Drawing.Point(1079, 22);
-            this.linkLabelEditProfile.Name = "linkLabelEditProfile";
-            this.linkLabelEditProfile.Size = new System.Drawing.Size(118, 26);
-            this.linkLabelEditProfile.TabIndex = 2;
-            this.linkLabelEditProfile.TabStop = true;
-            this.linkLabelEditProfile.Text = "Edit Profile";
-            this.linkLabelEditProfile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelEditProfile_LinkClicked);
-            // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 26F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1243, 697);
-            this.Controls.Add(this.labelLoadingCoffeeReminder);
             this.Controls.Add(this.labelLoadingNotifier);
+            this.Controls.Add(this.labelLoadingCoffeeReminder);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.panelToolbar);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

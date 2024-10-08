@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
-
+using System.Globalization;
 using CefSharp.DevTools.Debugger;
 
 using FacebookWrapper.ObjectModel;
@@ -15,8 +15,14 @@ namespace BasicFacebookFeatures.Logic
         public SimplifiedUser(User i_LoggedInUser)
         {
             r_LoggedInUser = i_LoggedInUser ?? throw new ArgumentNullException(nameof(i_LoggedInUser));
-            Name = i_LoggedInUser.Name;
-            Birthday = DateTime.TryParse(r_LoggedInUser.Birthday, out DateTime parsedDate) ? (DateTime?)parsedDate : null;
+
+            initializeProperties();
+        }
+
+        private void initializeProperties()
+        {
+            Name = r_LoggedInUser.Name;
+            Birthday = DateTime.TryParseExact(r_LoggedInUser.Birthday, "MM/dd/yyyy", null, DateTimeStyles.None, out DateTime parsedDate) ? (DateTime?)parsedDate : null;
             City = r_LoggedInUser.Location.Name;
         }
 

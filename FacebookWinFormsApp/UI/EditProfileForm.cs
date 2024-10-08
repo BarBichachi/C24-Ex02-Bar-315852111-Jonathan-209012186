@@ -18,8 +18,10 @@ namespace BasicFacebookFeatures.UI
         public EditProfileForm()
         {
             InitializeComponent();
+
             AppLogic appLogic = AppLogic.Instance;
             appLogicBindingSource.DataSource = appLogic;
+            birthdayDateTimePicker.MaxDate = DateTime.Today;
         }
 
         private void buttonSave_Click(object sender, EventArgs e)

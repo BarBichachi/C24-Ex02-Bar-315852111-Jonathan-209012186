@@ -12,15 +12,20 @@ using FacebookWrapper;
 namespace BasicFacebookFeatures.UI
 {
     // TODO - Add LazyLoadingPhoto
-    // TODO - Add new feature
     // TODO - Add another design pattern
-    // TODO - Add Two-Way Data Binding
-    // TODO - Replace everything to Ex02!!!!
 
     public partial class FormMain : Form
     {
         private readonly AppLogic r_AppLogic;
         private Dictionary<TabPage, Func<ILayoutPopulationStrategy>> m_TabPopulationStrategies;
+
+        private System.Windows.Forms.Timer m_Timer;
+        private int m_RemainingSeconds;
+
+        private const int k_ColumnsForProfile = 3;
+        private const int k_BoxesForProfile = 9;
+        private const int k_ColumnsForTab = 5;
+        private const int k_BoxesForTab = 25;
 
         public FormMain()
         {
@@ -30,25 +35,40 @@ namespace BasicFacebookFeatures.UI
             initializeTabStrategies();
 
             r_AppLogic = AppLogic.Instance;
+            r_AppLogic.TimerElapsed += OnTimerElapsed;
+            r_AppLogic.TimeUpdated += OnTimeUpdated;
             this.Shown += FormMain_Shown;
         }
 
         private void FormMain_Shown(object sender, EventArgs e)
         {
+            Application.DoEvents();
             resetScrollPosition();
             initiateProfilePage();
+            r_AppLogic.InitializeTimer(); // Initialize the timer in AppLogic
+        }
+
+        private void OnTimerElapsed(object sender, EventArgs e)
+        {
+            MessageBox.Show(@"According to your age you've used Facebook too much time, it's time to say goodbye!");
+            closeApplication();
+        }
+
+        private void OnTimeUpdated(object sender, EventArgs e)
+        {
+            this.Text = $@"Facebook - {r_AppLogic.GetRemainingTime()} left before shutdown.";
         }
 
         private void initializeTabStrategies()
         {
             m_TabPopulationStrategies = new Dictionary<TabPage, Func<ILayoutPopulationStrategy>>
-                                            {
-                                                { tabPageProfileLikedPages, () => new LikedPagesPopulationStrategy() },
-                                                { tabPageProfileFavoriteTeams, () => new FavoriteTeamsPopulationStrategy() },
-                                                { tabPageProfileFriends, () => new FriendsPopulationStrategy() },
-                                                { tabPageProfileCheckins, () => new CheckInsPopulationStrategy() },
-                                                { tabPageProfilePhotos, () => new PhotosPopulationStrategy() }
-                                            };
+            {
+                { tabPageProfileLikedPages, () => new LikedPagesPopulationStrategy() },
+                { tabPageProfileFavoriteTeams, () => new FavoriteTeamsPopulationStrategy() },
+                { tabPageProfileFriends, () => new FriendsPopulationStrategy() },
+                { tabPageProfileCheckins, () => new CheckInsPopulationStrategy() },
+                { tabPageProfilePhotos, () => new PhotosPopulationStrategy() }
+            };
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -62,12 +82,9 @@ namespace BasicFacebookFeatures.UI
         {
             try
             {
-                this.Invoke(new Action(() =>
-                            {
-                                initiateProfileElements();
-                                initiateProfileAboutPanel();
-                                initiateProfileFlowLayoutPanels();
-                            }));
+                initiateProfileElements();
+                initiateProfileAboutPanel();
+                initiateProfileFlowLayoutPanels();
             }
             catch (Exception e)
             {
@@ -84,7 +101,7 @@ namespace BasicFacebookFeatures.UI
             Image coverImage = r_AppLogic.UserCoverImage;
             pictureBoxProfileCover.Image = coverImage ?? BasicFacebookFeatures.Properties.Resources.PlaceholderImage;
             pictureBoxProfilePicture.Image = r_AppLogic.UserProfileImage;
-            labelProfileFullName.Text = r_AppLogic.UserName;
+            labelProfileFullName.Text = string.IsNullOrEmpty(r_AppLogic.UserName) ? "Unavailable" : r_AppLogic.UserName;
             labelProfileFullName.Visible = true;
             labelProfileNumOfFriends.Text = $@"{r_AppLogic.UserFriendsCount} friends";
             labelProfileNumOfFriends.Visible = true;
@@ -93,16 +110,16 @@ namespace BasicFacebookFeatures.UI
 
         private void initiateProfileAboutPanel()
         {
-            labelProfilePostsAboutBirthday.Text = $@"Birthday - {r_AppLogic.UserBirthday?.ToString("MM/dd/yyyy") ?? "Unavailable"}";
-            labelProfilePostsAboutCity.Text = $@"Lives in - {r_AppLogic.UserCity ?? "Unavailable"}";
-            labelProfilePostsAboutGender.Text = $@"Gender - {r_AppLogic.UserGender.ToString() ?? "Unavailable"}";
+            labelProfilePostsAboutBirthday.Text = $@"Birthday - {(r_AppLogic.UserBirthday.HasValue ? r_AppLogic.UserBirthday.Value.ToString("dd/MM/yyyy") : "Unavailable")}";
+            labelProfilePostsAboutCity.Text = $@"Lives in - {(string.IsNullOrEmpty(r_AppLogic.UserCity) ? "Unavailable" : r_AppLogic.UserCity)}";
+            labelProfilePostsAboutGender.Text = $@"Gender - {(r_AppLogic.UserGender.HasValue ? r_AppLogic.UserGender.Value.ToString() : "Unavailable")}";
         }
 
         private void initiateProfileFlowLayoutPanels()
         {
-            r_AppLogic.PopulateLayout(flowLayoutPanelProfilePostsPhotos, 3, 9, new PhotosPopulationStrategy());
-            r_AppLogic.PopulateLayout(flowLayoutPanelProfilePostsFriends, 3, 9, new FriendsPopulationStrategy());
-            r_AppLogic.PopulateLayout(flowLayoutPanelPosts, 4, 25, new PostsPopulationStrategy());
+            r_AppLogic.PopulateLayout(flowLayoutPanelProfilePostsPhotos, k_ColumnsForProfile, k_BoxesForProfile, new PhotosPopulationStrategy());
+            r_AppLogic.PopulateLayout(flowLayoutPanelProfilePostsFriends, k_ColumnsForProfile, k_BoxesForProfile, new FriendsPopulationStrategy());
+            r_AppLogic.PopulateLayout(flowLayoutPanelPosts, k_ColumnsForProfile + 1, k_BoxesForTab, new PostsPopulationStrategy());
         }
 
         private void loadingFinished()
@@ -113,9 +130,7 @@ namespace BasicFacebookFeatures.UI
 
         private void loadTabContent(TabPage i_SelectedTab)
         {
-            if (m_TabPopulationStrategies.TryGetValue(
-                    i_SelectedTab,
-                    out Func<ILayoutPopulationStrategy> populationStrategyFunc))
+            if (m_TabPopulationStrategies.TryGetValue(i_SelectedTab, out Func<ILayoutPopulationStrategy> populationStrategyFunc))
             {
                 new Thread(() =>
                 {
@@ -123,21 +138,14 @@ namespace BasicFacebookFeatures.UI
                     {
                         this.Invoke((Action)(() =>
                         {
-                            var populationStrategy = populationStrategyFunc();
-
-                            r_AppLogic.PopulateLayout(getFlowLayoutForTab(i_SelectedTab), 5, 25,
-                                populationStrategy);
-                            loadingFinished();
+                            r_AppLogic.PopulateLayout(getFlowLayoutForTab(i_SelectedTab), k_ColumnsForTab, k_BoxesForTab, populationStrategyFunc());
                         }));
                     }
                     catch (Exception e)
                     {
-                        throw new ApplicationException(
-                            $"An error occurred while populating {i_SelectedTab.Text}!\n\n" + e.Message,
-                            e);
+                        throw new ApplicationException($"An error occurred while populating {i_SelectedTab.Text}!\n\n" + e.Message, e);
                     }
-                })
-                { IsBackground = true }.Start();
+                }) { IsBackground = true }.Start(); 
             }
         }
 
@@ -257,11 +265,16 @@ namespace BasicFacebookFeatures.UI
             {
                 if (editProfileForm.ShowDialog() == DialogResult.OK)
                 {
-                    // After closing the form, the currentUser object will already be updated
-                    initiateProfileElements();
-                    initiateProfileAboutPanel();
+                    updateProfileAfterEdit();
                 }
             }
+        }
+
+        private void updateProfileAfterEdit()
+        {
+            labelProfileFullName.Text = string.IsNullOrEmpty(r_AppLogic.UserName) ? "Unavailable" : r_AppLogic.UserName;
+            labelProfilePostsAboutBirthday.Text = $@"Birthday - {(r_AppLogic.UserBirthday.HasValue ? r_AppLogic.UserBirthday.Value.ToString("dd/MM/yyyy") : "Unavailable")}";
+            labelProfilePostsAboutCity.Text = $@"Lives in - {(string.IsNullOrEmpty(r_AppLogic.UserCity) ? "Unavailable" : r_AppLogic.UserCity)}";
         }
     }
 }

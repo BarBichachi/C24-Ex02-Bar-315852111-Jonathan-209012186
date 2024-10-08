@@ -91,6 +91,7 @@ namespace BasicFacebookFeatures.UI
             buttonContinueToFacebook.Visible = true;
             m_IsLoggedIn = true;
 
+            configureAppSettings();
             AppLogic.Instance.InitializeAppLogic();
         }
 

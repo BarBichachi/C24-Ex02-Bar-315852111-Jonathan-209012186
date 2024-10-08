@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Threading;
 using System.Windows.Forms;
 using BasicFacebookFeatures.Strategy;
 using BasicFacebookFeatures.UI;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
+
+using Timer = System.Windows.Forms.Timer;
+
 
 namespace BasicFacebookFeatures.Logic
 {
@@ -18,6 +22,11 @@ namespace BasicFacebookFeatures.Logic
         private LoginResult m_LoginResult;
         private List<string> m_RandomFacts;
         private readonly Random r_Random = new Random();
+        private Timer m_Timer;
+        private int m_RemainingSeconds;
+
+        public event EventHandler TimerElapsed;
+        public event EventHandler TimeUpdated;
 
         public AppLogic()
         {
@@ -26,7 +35,34 @@ namespace BasicFacebookFeatures.Logic
         public void InitializeAppLogic()
         {
             connectToUser();
-            initializeRandomFacts();
+            new Thread(initializeRandomFacts) { IsBackground = true }.Start();
+        }
+
+        public void InitializeTimer()
+        {
+            m_RemainingSeconds = Math.Max(1, (DateTime.Now.Year - (UserBirthday?.Year ?? DateTime.Now.Year))) * 60;
+            m_Timer = new Timer { Interval = 1000 };
+            m_Timer.Tick += onTimerTick;
+
+            m_Timer.Start();
+        }
+
+        private void onTimerTick(object sender, EventArgs e)
+        {
+            if (--m_RemainingSeconds <= 0)
+            {
+                m_Timer.Stop();
+                TimerElapsed?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                TimeUpdated?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        public string GetRemainingTime()
+        {
+            return TimeSpan.FromSeconds(m_RemainingSeconds).ToString(@"hh\:mm\:ss");
         }
 
         private void connectToUser()
@@ -45,6 +81,8 @@ namespace BasicFacebookFeatures.Logic
 
         public static AppLogic Instance => sr_Instance;
 
+        public SimplifiedUser SimplifiedUser => m_SimplifiedUser; // Although 0 references, it's the data source for two-way data binding (EditProfileForm)
+
         public Image UserProfileImage => m_SimplifiedUser.ProfileImage;
 
         public Image UserCoverImage => m_SimplifiedUser.CoverImage;
@@ -61,21 +99,21 @@ namespace BasicFacebookFeatures.Logic
 
         private void initializeRandomFacts()
         {
-            int facebookFoundedAge = m_SimplifiedUser.Birthday.HasValue
-                                         ? Math.Max(0, 2004 - m_SimplifiedUser.Birthday.Value.Year)
-                                         : 0;
+            int facebookFoundedAge = Math.Max(0, 2004 - (m_SimplifiedUser.Birthday?.Year ?? 2004));
+            string birthdayString = m_SimplifiedUser.Birthday?.ToString("dd/MM/yyyy") ?? "Not specified";
+
             m_RandomFacts = new List<string>
-                                {
-                                    $"You have {m_SimplifiedUser.Posts.Count} posts.",
-                                    $"You have liked {m_SimplifiedUser.LikedPages.Count} pages so far.",
-                                    $"You’ve checked in at {m_SimplifiedUser.Checkins.Count} different places!",
-                                    $"You have {m_SimplifiedUser.Albums.Count} albums.",
-                                    $"You have {m_SimplifiedUser.Friends.Count} friends.",
-                                    $"Your birthday is on {m_SimplifiedUser.Birthday.Value:MM/dd/yyyy}",
-                                    facebookFoundedAge == 0
-                                        ? "You were not born when Facebook was founded or you didn't insert your birthday!"
-                                        : $"You were {facebookFoundedAge} years old when Facebook was founded."
-                                };
+            {
+                $"You have {m_SimplifiedUser.Posts.Count} posts.",
+                $"You have liked {m_SimplifiedUser.LikedPages.Count} pages so far.",
+                $"You’ve checked in at {m_SimplifiedUser.Checkins.Count} different places!",
+                $"You have {m_SimplifiedUser.Albums.Count} albums.",
+                $"You have {m_SimplifiedUser.Friends.Count} friends.",
+                $"Your birthday is on - {birthdayString}",
+                facebookFoundedAge == 0
+                    ? "You were not born when Facebook was founded or you didn't insert your birthday!"
+                    : $"You were {facebookFoundedAge} years old when Facebook was founded."
+            };
         }
 
         public string GenerateRandomFact()
@@ -111,21 +149,5 @@ namespace BasicFacebookFeatures.Logic
         {
             i_Strategy.PopulateLayout(m_SimplifiedUser, i_FlowLayoutPanel, i_NumberOfColumns, i_MaxBoxes);
         }
-
-        #region Unused methods
-
-        // Unused methods but could be relevant for programmer
-        public FacebookObjectCollection<Post> GetUserPosts() => m_SimplifiedUser.Posts;
-
-        public FacebookObjectCollection<Checkin> GetUserCheckins() => m_SimplifiedUser.Checkins;
-
-        public FacebookObjectCollection<Album> GetUserAlbums() => m_SimplifiedUser.Albums;
-
-        public FacebookObjectCollection<User> GetUserFriends() => m_SimplifiedUser.Friends;
-
-        public FacebookObjectCollection<Page> GetUserLikedPages() => m_SimplifiedUser.LikedPages;
-
-        public Page[] GetUserFavoriteTeams() => m_SimplifiedUser.FavoriteTeams;
-        #endregion
     }
 }
