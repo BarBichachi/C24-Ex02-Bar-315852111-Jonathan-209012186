@@ -9,7 +9,7 @@ namespace BasicFacebookFeatures.Strategy
 {
     internal class PhotosPopulationStrategy : AbstractLayoutPopulationStrategy<Photo>
     {
-        protected override IEnumerable<Photo> GetItems(SimplifiedUser i_User) => i_User.Albums.SelectMany(album => album.Photos);
+        protected override IEnumerable<Photo> GetItems(SimplifiedUser i_User) => i_User.Albums.SelectMany(i_Album => i_Album.Photos);
 
         protected override Panel CreatePanel(Photo i_Item, int i_PanelDimensions) => PhotoPanelFactory.CreatePhotoPanel(i_Item, i_PanelDimensions);
     }

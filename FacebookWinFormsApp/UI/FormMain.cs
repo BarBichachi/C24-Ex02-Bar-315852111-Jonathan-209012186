@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using BasicFacebookFeatures.ComponentFactories;
 using BasicFacebookFeatures.Logic;
+using BasicFacebookFeatures.Properties;
 using BasicFacebookFeatures.Strategy;
 
 using FacebookWrapper;

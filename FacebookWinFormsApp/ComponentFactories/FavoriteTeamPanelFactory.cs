@@ -8,38 +8,22 @@ namespace BasicFacebookFeatures.ComponentFactories
     {
         public static Panel CreateFavoriteTeamPanel(Page i_FavoriteTeam, int i_PanelDimensions)
         {
-            Panel teamPanel = new Panel
-                                  {
-                                      Size = new Size(i_PanelDimensions, i_PanelDimensions),
-                                      BorderStyle = BorderStyle.FixedSingle,
-                                  };
-
             int pictureBoxDimensions = i_PanelDimensions - 20;
-            PictureBox teamPictureBox = new PictureBox
-                                            {
-                                                Size = new Size(pictureBoxDimensions, pictureBoxDimensions),
-                                                Dock = DockStyle.Top,
-                                                SizeMode = PictureBoxSizeMode.StretchImage
-                                            };
-
-            if (!string.IsNullOrEmpty(i_FavoriteTeam.PictureURL))
+            Panel teamPanel = new Panel
             {
-                teamPictureBox.LoadAsync(i_FavoriteTeam.PictureURL);
-            }
-            else
-            {
-                teamPictureBox.Image = Properties.Resources.PlaceholderImage;
-            }
-
+                Size = new Size(i_PanelDimensions, i_PanelDimensions),
+                BorderStyle = BorderStyle.FixedSingle,
+            };
             Label teamLabel = new Label
-                                  {
-                                      Text = i_FavoriteTeam.Name,
-                                      Dock = DockStyle.Bottom,
-                                      Font = new Font("Arial", 8), // Implemented directly
-                                      TextAlign = ContentAlignment.MiddleCenter
-                                  };
+            {
+                Text = i_FavoriteTeam.Name,
+                Dock = DockStyle.Bottom,
+                Font = new Font("Arial", 8),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+            PictureBox pictureBox = PhotoBoxFactory.CreatePictureBox(i_FavoriteTeam.PictureNormalURL, i_PanelDimensions);
 
-            teamPanel.Controls.Add(teamPictureBox);
+            teamPanel.Controls.Add(pictureBox);
             teamPanel.Controls.Add(teamLabel);
 
             return teamPanel;
