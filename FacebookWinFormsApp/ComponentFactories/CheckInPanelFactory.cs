@@ -18,7 +18,7 @@ namespace BasicFacebookFeatures.ComponentFactories
             {
                 Text = i_CheckIn.Name,
                 Location = new Point(115, 30),
-                Font = new Font("Arial", 11, FontStyle.Bold),
+                Font = new Font("Arial", 8, FontStyle.Bold),
                 AutoSize = true,
                 MaximumSize = new Size(160, 0)
             };
