@@ -11,16 +11,10 @@ using FacebookWrapper;
 
 namespace BasicFacebookFeatures.UI
 {
-    // TODO - Add LazyLoadingPhoto
-    // TODO - Add another design pattern
-
     public partial class FormMain : Form
     {
-        private readonly AppLogic r_AppLogic;
+        private readonly AppLogic r_AppLogic = AppLogic.Instance;
         private Dictionary<TabPage, Func<ILayoutPopulationStrategy>> m_TabPopulationStrategies;
-
-        private System.Windows.Forms.Timer m_Timer;
-        private int m_RemainingSeconds;
 
         private const int k_ColumnsForProfile = 3;
         private const int k_BoxesForProfile = 9;
@@ -34,7 +28,7 @@ namespace BasicFacebookFeatures.UI
             InitializeComponent();
             initializeTabStrategies();
 
-            r_AppLogic = AppLogic.Instance;
+            //r_AppLogic = AppLogic.Instance;
             r_AppLogic.TimerElapsed += OnTimerElapsed;
             r_AppLogic.TimeUpdated += OnTimeUpdated;
             this.Shown += FormMain_Shown;
@@ -45,7 +39,6 @@ namespace BasicFacebookFeatures.UI
             Application.DoEvents();
             resetScrollPosition();
             initiateProfilePage();
-            r_AppLogic.InitializeTimer(); // Initialize the timer in AppLogic
         }
 
         private void OnTimerElapsed(object sender, EventArgs e)
@@ -74,7 +67,6 @@ namespace BasicFacebookFeatures.UI
         protected override void OnClosing(CancelEventArgs e)
         {
             resetAppSettingsByNeed();
-            r_AppLogic.SaveAppSettings();
             base.OnClosing(e);
         }
 
@@ -169,7 +161,7 @@ namespace BasicFacebookFeatures.UI
                     return flowLayoutPanelPhotos;
 
                 default:
-                    throw new ArgumentException("Unknown tab", nameof(i_TabPage));
+                    throw new ArgumentException(@"Unknown tab", nameof(i_TabPage));
             }
         }
 

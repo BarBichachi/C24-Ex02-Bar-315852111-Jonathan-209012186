@@ -32,13 +32,14 @@ namespace BasicFacebookFeatures.Logic
         {
         }
 
-        public void InitializeAppLogic()
+        public void Initialize()
         {
             connectToUser();
             new Thread(initializeRandomFacts) { IsBackground = true }.Start();
+            initializeTimer();
         }
 
-        public void InitializeTimer()
+        private void initializeTimer()
         {
             m_RemainingSeconds = Math.Max(1, (DateTime.Now.Year - (UserBirthday?.Year ?? DateTime.Now.Year))) * 60;
             m_Timer = new Timer { Interval = 1000 };
@@ -65,23 +66,54 @@ namespace BasicFacebookFeatures.Logic
             return TimeSpan.FromSeconds(m_RemainingSeconds).ToString(@"hh\:mm\:ss");
         }
 
+        private bool isAlreadyLoggedIn()
+        {
+            return sr_AppSettings.SavedAccessToken != "defaultToken";
+        }
+
         private void connectToUser()
         {
             try
             {
-                m_LoginResult = FacebookService.Connect(sr_AppSettings.SavedAccessToken);
+                if (!isAlreadyLoggedIn())
+                {
+                    m_LoginResult = FacebookService.Connect("EAAF5GQRl3KQBO2FKspw47BqSjwRQA8aVZCYMHI1n9sNfzf5PgurT6orBWpZBJPqIeUZAqB6pAb8OjjsUoSdd5gTzZBxfgHRYVjMB7IIAxbAshoPbV6mNNNoZCg9wyX7WHSRE0dZBTOzGbz9pfvhPlm1mLaHLxVBqfE0xCdaLejLSE77ThNmLi9tt2apOJKv6YoeCczzw2fkZArXqHZB0zoOUZB0PclqSWQA60wiGYYZCIUeFIs3ZCAnqm4ZD");
+                    //m_loginResult = FacebookService.Login("414623331638436", 
+                    //        //    // Permissions
+                    //        //    "public_profile",
+                    //        //    "email",
+                    //        //    "user_age_range",
+                    //        //    "user_birthday",
+                    //        //    "user_events",
+                    //        //    "user_friends",
+                    //        //    "user_gender",
+                    //        //    "user_hometown",
+                    //        //    "user_likes",
+                    //        //    "user_link",
+                    //        //    "user_location",
+                    //        //    "user_photos",
+                    //        //    "user_posts",
+                    //        //    "user_videos"
+                    //        //);
+                    sr_AppSettings.SavedAccessToken = m_LoginResult.AccessToken;
+                    sr_AppSettings.SavedUsername = m_LoginResult.LoggedInUser.ToString();
+                }
+                else
+                {
+                    m_LoginResult = FacebookService.Connect(sr_AppSettings.SavedAccessToken);
+                }
+
+                m_SimplifiedUser = new SimplifiedUser(m_LoginResult.LoggedInUser);
             }
             catch (Exception e)
             {
                 throw new ApplicationException("Connecting to user has failed! >\n" + e.Message, e);
             }
-
-            m_SimplifiedUser = new SimplifiedUser(m_LoginResult.LoggedInUser);
         }
 
         public static AppLogic Instance => sr_Instance;
 
-        public SimplifiedUser SimplifiedUser => m_SimplifiedUser; // Although 0 references, it's the data source for two-way data binding (EditProfileForm)
+        public SimplifiedUser SimplifiedUser => m_SimplifiedUser; // Also data source for two-way data binding (EditProfileForm)
 
         public Image UserProfileImage => m_SimplifiedUser.ProfileImage;
 
@@ -96,6 +128,13 @@ namespace BasicFacebookFeatures.Logic
         public string UserCity => m_SimplifiedUser.City;
 
         public User.eGender? UserGender => m_SimplifiedUser.Gender;
+
+        public bool AutoLogin
+        {
+            get => sr_AppSettings.AutoLogin;
+            set => sr_AppSettings.AutoLogin = value;
+        }
+
 
         private void initializeRandomFacts()
         {
@@ -134,6 +173,8 @@ namespace BasicFacebookFeatures.Logic
                 sr_AppSettings.SavedAccessToken = "defaultToken";
                 sr_AppSettings.SavedUsername = "defaultUser";
             }
+
+            SaveAppSettings();
         }
 
         public void SaveAppSettings() => sr_AppSettings.Save();
@@ -148,6 +189,18 @@ namespace BasicFacebookFeatures.Logic
         public void PopulateLayout(FlowLayoutPanel i_FlowLayoutPanel, int i_NumberOfColumns, int i_MaxBoxes, ILayoutPopulationStrategy i_Strategy)
         {
             i_Strategy.PopulateLayout(m_SimplifiedUser, i_FlowLayoutPanel, i_NumberOfColumns, i_MaxBoxes);
+        }
+
+        public void Logout()
+        {
+            sr_AppSettings.AutoLogin = false;
+            ResetAppSettings();
+            FacebookService.Logout();
+        }
+
+        public bool ShouldAutoLogin()
+        {
+            return sr_AppSettings.AutoLogin;
         }
     }
 }
