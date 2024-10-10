@@ -26,6 +26,14 @@ namespace BasicFacebookFeatures.Logic
             City = r_LoggedInUser.Location.Name;
         }
 
+        public string Name { get; set; }
+
+        public DateTime? Birthday { get; set; }
+
+        public string City { get; set; }
+
+        public User.eGender? Gender => r_LoggedInUser.Gender;
+
         public Image ProfileImage => r_LoggedInUser.ImageLarge;
 
         public Image CoverImage
@@ -46,19 +54,11 @@ namespace BasicFacebookFeatures.Logic
             }
         }
 
-        public string Name { get; set; }
-
         public FacebookObjectCollection<User> Friends => r_LoggedInUser.Friends;
 
         public FacebookObjectCollection<Page> LikedPages => r_LoggedInUser.LikedPages;
 
         public Page[] FavoriteTeams => r_LoggedInUser.FavofriteTeams;
-
-        public DateTime? Birthday { get; set; }
-
-        public string City { get; set; }
-
-        public User.eGender? Gender => r_LoggedInUser.Gender;
 
         public FacebookObjectCollection<Post> Posts => r_LoggedInUser.Posts;
 
