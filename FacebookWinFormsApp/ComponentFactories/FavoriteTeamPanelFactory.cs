@@ -21,7 +21,7 @@ namespace BasicFacebookFeatures.ComponentFactories
                 Font = new Font("Arial", 8),
                 TextAlign = ContentAlignment.MiddleCenter
             };
-            PictureBox pictureBox = PhotoBoxFactory.CreatePictureBox(i_FavoriteTeam.PictureNormalURL, i_PanelDimensions);
+            PictureBox pictureBox = PictureBoxFactory.CreatePictureBox(i_FavoriteTeam.PictureNormalURL, i_PanelDimensions);
 
             teamPanel.Controls.Add(pictureBox);
             teamPanel.Controls.Add(teamLabel);

@@ -21,7 +21,7 @@ namespace BasicFacebookFeatures.ComponentFactories
                 Font = new Font("Arial", 8),
                 TextAlign = ContentAlignment.MiddleCenter
             };
-            PictureBox pictureBox = PhotoBoxFactory.CreatePictureBox(i_Page.PictureNormalURL, i_PanelDimensions);
+            PictureBox pictureBox = PictureBoxFactory.CreatePictureBox(i_Page.PictureNormalURL, i_PanelDimensions);
 
             likedPagePanel.Controls.Add(pictureBox);
             likedPagePanel.Controls.Add(nameLabel);

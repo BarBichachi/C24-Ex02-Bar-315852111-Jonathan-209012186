@@ -32,6 +32,30 @@ namespace BasicFacebookFeatures.Logic
         {
         }
 
+        public static AppLogic Instance => sr_Instance;
+
+        public SimplifiedUser SimplifiedUser => m_SimplifiedUser; // Also data source for two-way data binding (EditProfileForm)
+
+        public Image UserProfileImage => m_SimplifiedUser.ProfileImage;
+
+        public Image UserCoverImage => m_SimplifiedUser.CoverImage;
+
+        public string UserName => m_SimplifiedUser.Name;
+
+        public int UserFriendsCount => m_SimplifiedUser.Friends.Count;
+
+        public DateTime? UserBirthday => m_SimplifiedUser.Birthday;
+
+        public string UserCity => m_SimplifiedUser.City;
+
+        public User.eGender? UserGender => m_SimplifiedUser.Gender;
+
+        public bool AutoLogin
+        {
+            get => sr_AppSettings.AutoLogin;
+            set => sr_AppSettings.AutoLogin = value;
+        }
+
         public void Initialize()
         {
             connectToUser();
@@ -110,31 +134,6 @@ namespace BasicFacebookFeatures.Logic
                 throw new ApplicationException("Connecting to user has failed! >\n" + e.Message, e);
             }
         }
-
-        public static AppLogic Instance => sr_Instance;
-
-        public SimplifiedUser SimplifiedUser => m_SimplifiedUser; // Also data source for two-way data binding (EditProfileForm)
-
-        public Image UserProfileImage => m_SimplifiedUser.ProfileImage;
-
-        public Image UserCoverImage => m_SimplifiedUser.CoverImage;
-
-        public string UserName => m_SimplifiedUser.Name;
-
-        public int UserFriendsCount => m_SimplifiedUser.Friends.Count;
-
-        public DateTime? UserBirthday => m_SimplifiedUser.Birthday;
-
-        public string UserCity => m_SimplifiedUser.City;
-
-        public User.eGender? UserGender => m_SimplifiedUser.Gender;
-
-        public bool AutoLogin
-        {
-            get => sr_AppSettings.AutoLogin;
-            set => sr_AppSettings.AutoLogin = value;
-        }
-
 
         private void initializeRandomFacts()
         {

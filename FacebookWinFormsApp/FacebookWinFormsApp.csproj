@@ -124,7 +124,7 @@
     </Compile>
     <Compile Include="ComponentFactories\PostPanelFactory.cs" />
     <Compile Include="ComponentFactories\FriendPanelFactory.cs" />
-    <Compile Include="ComponentFactories\PhotoBoxFactory.cs" />
+    <Compile Include="ComponentFactories\PictureBoxFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="UI\EditProfileForm.resx">

@@ -4,7 +4,7 @@ using FacebookWrapper.ObjectModel;
 
 namespace BasicFacebookFeatures.ComponentFactories
 {
-    internal static class PhotoBoxFactory
+    internal static class PictureBoxFactory
     {
         public static PictureBox CreatePictureBox(string i_Photo, int i_PictureBoxDimensions)
         {
