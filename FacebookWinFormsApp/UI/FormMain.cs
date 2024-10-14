@@ -31,25 +31,25 @@ namespace BasicFacebookFeatures.UI
             initializeTabStrategies();
 
             //r_AppLogic = AppLogic.Instance;
-            r_AppLogic.TimerElapsed += OnTimerElapsed;
-            r_AppLogic.TimeUpdated += OnTimeUpdated;
-            this.Shown += FormMain_Shown;
+            r_AppLogic.TimerElapsed += onTimerElapsed;
+            r_AppLogic.TimeUpdated += onTimeUpdated;
+            this.Shown += formMain_Shown;
         }
 
-        private void FormMain_Shown(object sender, EventArgs e)
+        private void formMain_Shown(object sender, EventArgs e)
         {
             Application.DoEvents();
             resetScrollPosition();
             initiateProfilePage();
         }
 
-        private void OnTimerElapsed(object sender, EventArgs e)
+        private void onTimerElapsed(object sender, EventArgs e)
         {
             MessageBox.Show(@"According to your age you've used Facebook too much time, it's time to say goodbye!");
             closeApplication();
         }
 
-        private void OnTimeUpdated(object sender, EventArgs e)
+        private void onTimeUpdated(object sender, EventArgs e)
         {
             this.Text = $@"Facebook - {r_AppLogic.GetRemainingTime()} left before shutdown.";
         }
@@ -217,22 +217,22 @@ namespace BasicFacebookFeatures.UI
             this.Close();
         }
 
-        private void ProfilePostsPhotosSeeAllPhotos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void profilePostsPhotosSeeAllPhotos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             changeProfileTab("Photos");
         }
 
-        private void ProfilePostsFriendsSeeAllFriends_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void profilePostsFriendsSeeAllFriends_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             changeProfileTab("Friends");
         }
 
-        private void ToolbarFacebookLogo_Click(object sender, EventArgs e)
+        private void toolbarFacebookLogo_Click(object sender, EventArgs e)
         {
             resetScrollPosition();
         }
 
-        private void ToolbarExitButton_Click(object sender, EventArgs e)
+        private void toolbarExitButton_Click(object sender, EventArgs e)
         {
             closeApplication();
         }

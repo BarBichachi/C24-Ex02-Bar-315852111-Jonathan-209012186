@@ -219,7 +219,7 @@
             this.linkLabelProfilePostsSeeAllFriends.TabIndex = 3;
             this.linkLabelProfilePostsSeeAllFriends.TabStop = true;
             this.linkLabelProfilePostsSeeAllFriends.Text = "See all friends";
-            this.linkLabelProfilePostsSeeAllFriends.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ProfilePostsFriendsSeeAllFriends_LinkClicked);
+            this.linkLabelProfilePostsSeeAllFriends.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.profilePostsFriendsSeeAllFriends_LinkClicked);
             // 
             // labelProfilePostsFriends
             // 
@@ -257,7 +257,7 @@
             this.linkLabelProfilePostsSeeAllPhotos.TabIndex = 3;
             this.linkLabelProfilePostsSeeAllPhotos.TabStop = true;
             this.linkLabelProfilePostsSeeAllPhotos.Text = "See all photos";
-            this.linkLabelProfilePostsSeeAllPhotos.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ProfilePostsPhotosSeeAllPhotos_LinkClicked);
+            this.linkLabelProfilePostsSeeAllPhotos.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.profilePostsPhotosSeeAllPhotos_LinkClicked);
             // 
             // labelProfilePostsPhotos
             // 
@@ -574,7 +574,7 @@
             this.buttonToolbarExit.TabIndex = 1;
             this.buttonToolbarExit.Text = "Exit";
             this.buttonToolbarExit.UseVisualStyleBackColor = true;
-            this.buttonToolbarExit.Click += new System.EventHandler(this.ToolbarExitButton_Click);
+            this.buttonToolbarExit.Click += new System.EventHandler(this.toolbarExitButton_Click);
             // 
             // pictureboxToolbarFacebookLogo
             // 
@@ -586,7 +586,7 @@
             this.pictureboxToolbarFacebookLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureboxToolbarFacebookLogo.TabIndex = 0;
             this.pictureboxToolbarFacebookLogo.TabStop = false;
-            this.pictureboxToolbarFacebookLogo.Click += new System.EventHandler(this.ToolbarFacebookLogo_Click);
+            this.pictureboxToolbarFacebookLogo.Click += new System.EventHandler(this.toolbarFacebookLogo_Click);
             // 
             // FormMain
             // 
