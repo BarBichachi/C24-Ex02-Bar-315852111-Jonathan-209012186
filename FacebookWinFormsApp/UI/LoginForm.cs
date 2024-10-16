@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-
 using BasicFacebookFeatures.Logic;
-
-using FacebookWrapper;
 
 namespace BasicFacebookFeatures.UI
 {
@@ -88,8 +85,8 @@ namespace BasicFacebookFeatures.UI
 
         private void continueToFacebook()
         {
-            this.DialogResult = m_IsLoggedIn ? DialogResult.Yes : DialogResult.No;
-            this.Close();
+            DialogResult = m_IsLoggedIn ? DialogResult.Yes : DialogResult.No;
+            Close();
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)

@@ -8,7 +8,6 @@ namespace BasicFacebookFeatures.ComponentFactories
     {
         public static Panel CreatePostPanel(Post i_Post, int i_PanelDimensions)
         {
-            int pictureBoxDimensions = i_PanelDimensions - 25;
             Panel postPanel = new Panel
             {
                 Size = new Size(i_PanelDimensions, i_PanelDimensions),

@@ -4,12 +4,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using BasicFacebookFeatures.ComponentFactories;
 using BasicFacebookFeatures.Logic;
-using BasicFacebookFeatures.Properties;
 using BasicFacebookFeatures.Strategy;
-
-using FacebookWrapper;
 
 namespace BasicFacebookFeatures.UI
 {
@@ -25,32 +21,12 @@ namespace BasicFacebookFeatures.UI
 
         public FormMain()
         {
-            FacebookService.s_CollectionLimit = 25;
-
             InitializeComponent();
             initializeTabStrategies();
 
-            r_AppLogic.TimerElapsed += onTimerElapsed;
-            r_AppLogic.TimeUpdated += onTimeUpdated;
-            this.Shown += formMain_Shown;
-        }
-
-        private void formMain_Shown(object sender, EventArgs e)
-        {
-            Application.DoEvents();
-            resetScrollPosition();
-            initiateProfilePage();
-        }
-
-        private void onTimerElapsed(object sender, EventArgs e)
-        {
-            MessageBox.Show(@"According to your age you've used Facebook too much time, it's time to say goodbye!");
-            closeApplication();
-        }
-
-        private void onTimeUpdated(object sender, EventArgs e)
-        {
-            this.Text = $@"Facebook - {r_AppLogic.GetRemainingTime()} left before shutdown.";
+            r_AppLogic.TimerElapsed += OnTimerElapsed;
+            r_AppLogic.TimeUpdated += OnTimeUpdated;
+            this.Shown += OnFormShown;
         }
 
         private void initializeTabStrategies()
@@ -67,7 +43,7 @@ namespace BasicFacebookFeatures.UI
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            resetAppSettingsByNeed();
+            r_AppLogic.ResetAppSettings();
             base.OnClosing(e);
         }
 
@@ -144,36 +120,40 @@ namespace BasicFacebookFeatures.UI
 
         private FlowLayoutPanel getFlowLayoutForTab(TabPage i_TabPage)
         {
+            FlowLayoutPanel relevantPanel;
+
             switch (i_TabPage.Name)
             {
                 case nameof(tabPageProfileLikedPages):
-                    return flowLayoutPanelLikedPages;
+                    relevantPanel = flowLayoutPanelLikedPages;
+                    break;
 
                 case nameof(tabPageProfileFavoriteTeams):
-                    return flowLayoutPanelFavoriteTeams;
+                    relevantPanel = flowLayoutPanelFavoriteTeams;
+                    break;
 
                 case nameof(tabPageProfileFriends):
-                    return flowLayoutPanelFriends;
+                    relevantPanel = flowLayoutPanelFriends;
+                    break;
 
                 case nameof(tabPageProfileCheckins):
-                    return flowLayoutPanelCheckins;
+                    relevantPanel = flowLayoutPanelCheckins;
+                    break;
 
                 case nameof(tabPageProfilePhotos):
-                    return flowLayoutPanelPhotos;
+                    relevantPanel = flowLayoutPanelPhotos;
+                    break;
 
                 default:
                     throw new ArgumentException(@"Unknown tab", nameof(i_TabPage));
             }
-        }
 
-        private void resetAppSettingsByNeed()
-        {
-            r_AppLogic.ResetAppSettings();
+            return relevantPanel;
         }
 
         private void changeProfileTab(string i_TabName)
         {
-            int tabNum = 0;
+            int tabNum;
 
             switch (i_TabName)
             {
@@ -195,6 +175,9 @@ namespace BasicFacebookFeatures.UI
                 case "Favorite Teams":
                     tabNum = 5;
                     break;
+
+                default:
+                    throw new ArgumentException(@"Unknown tab", i_TabName);
             }
 
             tabControlProfileTabs.SelectedTab = tabControlProfileTabs.TabPages[tabNum];
@@ -208,12 +191,56 @@ namespace BasicFacebookFeatures.UI
         private void showRandomFact()
         {
             string randomFact = r_AppLogic.GenerateRandomFact();
+
             MessageBox.Show(randomFact);
         }
 
-        private void closeApplication()
+        private void fillTabDetails()
         {
-            this.Close();
+            TabPage selectedTab = tabControlProfileTabs.SelectedTab;
+
+            if (selectedTab.Tag == null)
+            {
+                selectedTab.Tag = "Loaded";
+
+                loadTabContent(selectedTab);
+            }
+        }
+
+        private void editProfile()
+        {
+            using (EditProfileForm editProfileForm = new EditProfileForm())
+            {
+                if (editProfileForm.ShowDialog() == DialogResult.OK)
+                {
+                    updateProfileAfterEdit();
+                }
+            }
+        }
+
+        private void updateProfileAfterEdit()
+        {
+            labelProfileFullName.Text = string.IsNullOrEmpty(r_AppLogic.UserName) ? "Unavailable" : r_AppLogic.UserName;
+            labelProfilePostsAboutBirthday.Text = $@"Birthday - {(r_AppLogic.UserBirthday.HasValue ? r_AppLogic.UserBirthday.Value.ToString("dd/MM/yyyy") : "Unavailable")}";
+            labelProfilePostsAboutCity.Text = $@"Lives in - {(string.IsNullOrEmpty(r_AppLogic.UserCity) ? "Unavailable" : r_AppLogic.UserCity)}";
+        }
+
+        private void OnFormShown(object sender, EventArgs e)
+        {
+            Application.DoEvents();
+            resetScrollPosition();
+            initiateProfilePage();
+        }
+
+        private void OnTimerElapsed(object sender, EventArgs e)
+        {
+            MessageBox.Show(@"According to your age you've used Facebook too much time, it's time to say goodbye!");
+            Close();
+        }
+
+        private void OnTimeUpdated(object sender, EventArgs e)
+        {
+            this.Text = $@"Facebook - {r_AppLogic.GetRemainingTime()} left before shutdown.";
         }
 
         private void profilePostsPhotosSeeAllPhotos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -233,7 +260,7 @@ namespace BasicFacebookFeatures.UI
 
         private void toolbarExitButton_Click(object sender, EventArgs e)
         {
-            closeApplication();
+            Close();
         }
 
         private void factGeneratorButton_Click(object sender, EventArgs e)
@@ -243,31 +270,12 @@ namespace BasicFacebookFeatures.UI
 
         private void tabControlProfileTabs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TabPage selectedTab = tabControlProfileTabs.SelectedTab;
-
-            if (selectedTab.Tag == null)
-            {
-                selectedTab.Tag = "Loaded";
-                loadTabContent(selectedTab);
-            }
+            fillTabDetails();
         }
 
         private void linkLabelEditProfile_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            using (EditProfileForm editProfileForm = new EditProfileForm())
-            {
-                if (editProfileForm.ShowDialog() == DialogResult.OK)
-                {
-                    updateProfileAfterEdit();
-                }
-            }
-        }
-
-        private void updateProfileAfterEdit()
-        {
-            labelProfileFullName.Text = string.IsNullOrEmpty(r_AppLogic.UserName) ? "Unavailable" : r_AppLogic.UserName;
-            labelProfilePostsAboutBirthday.Text = $@"Birthday - {(r_AppLogic.UserBirthday.HasValue ? r_AppLogic.UserBirthday.Value.ToString("dd/MM/yyyy") : "Unavailable")}";
-            labelProfilePostsAboutCity.Text = $@"Lives in - {(string.IsNullOrEmpty(r_AppLogic.UserCity) ? "Unavailable" : r_AppLogic.UserCity)}";
+            editProfile();
         }
     }
 }

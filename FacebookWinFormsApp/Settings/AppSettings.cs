@@ -1,9 +1,8 @@
-﻿using System.Drawing;
-using System.IO;
+﻿using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace BasicFacebookFeatures.UI
+namespace BasicFacebookFeatures.Settings
 {
     public class AppSettings
     {
@@ -39,7 +38,7 @@ namespace BasicFacebookFeatures.UI
         #endregion
 
         #region Methods
-
+        
         public static AppSettings Instance
         {
             get

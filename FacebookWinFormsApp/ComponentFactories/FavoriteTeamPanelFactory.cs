@@ -8,7 +8,6 @@ namespace BasicFacebookFeatures.ComponentFactories
     {
         public static Panel CreateFavoriteTeamPanel(Page i_FavoriteTeam, int i_PanelDimensions)
         {
-            int pictureBoxDimensions = i_PanelDimensions - 20;
             Panel teamPanel = new Panel
             {
                 Size = new Size(i_PanelDimensions, i_PanelDimensions),

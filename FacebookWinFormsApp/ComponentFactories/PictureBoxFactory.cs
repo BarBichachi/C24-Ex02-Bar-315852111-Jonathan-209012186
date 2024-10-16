@@ -1,12 +1,11 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using FacebookWrapper.ObjectModel;
 
 namespace BasicFacebookFeatures.ComponentFactories
 {
     internal static class PictureBoxFactory
     {
-        public static PictureBox CreatePictureBox(string i_Photo, int i_PictureBoxDimensions)
+        public static PictureBox CreatePictureBox(string i_PhotoUrl, int i_PictureBoxDimensions)
         {
             PictureBox photoPictureBox = new PictureBox
             {
@@ -16,9 +15,9 @@ namespace BasicFacebookFeatures.ComponentFactories
                 Dock = DockStyle.Top
             };
 
-            if (!string.IsNullOrEmpty(i_Photo))
+            if (!string.IsNullOrEmpty(i_PhotoUrl))
             {
-                photoPictureBox.LoadAsync(i_Photo);
+                photoPictureBox.LoadAsync(i_PhotoUrl);
             }
             else
             {

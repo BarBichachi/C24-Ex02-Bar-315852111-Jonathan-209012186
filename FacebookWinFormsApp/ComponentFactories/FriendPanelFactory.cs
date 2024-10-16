@@ -8,7 +8,6 @@ namespace BasicFacebookFeatures.ComponentFactories
     {
         public static Panel CreateFriendPanel(User i_Friend, int i_PanelDimensions)
         {
-            int pictureBoxDimensions = i_PanelDimensions - 25;
             Panel friendPanel = new Panel
             {
                 Size = new Size(i_PanelDimensions, i_PanelDimensions),

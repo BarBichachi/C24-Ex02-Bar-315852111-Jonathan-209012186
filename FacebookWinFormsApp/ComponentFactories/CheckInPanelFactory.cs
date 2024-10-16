@@ -36,13 +36,13 @@ namespace BasicFacebookFeatures.ComponentFactories
                 SizeMode = PictureBoxSizeMode.StretchImage
             };
 
-            if (string.IsNullOrEmpty(i_CheckIn.PictureURL))
+            if (!string.IsNullOrEmpty(i_CheckIn.PictureURL))
             {
-                pictureBoxCheckIn.Image = Properties.Resources.CheckInPinImage;
+                pictureBoxCheckIn.LoadAsync(i_CheckIn.PictureURL);
             }
             else
             {
-                pictureBoxCheckIn.LoadAsync(i_CheckIn.PictureURL);
+                pictureBoxCheckIn.Image = Properties.Resources.CheckInPinImage;
             }
 
             checkInPanel.Controls.Add(pictureBoxCheckIn);

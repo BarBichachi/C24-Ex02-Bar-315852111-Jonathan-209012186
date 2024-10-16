@@ -8,7 +8,6 @@ namespace BasicFacebookFeatures.ComponentFactories
     {
         public static Panel CreateLikedPagePanel(Page i_Page, int i_PanelDimensions)
         {
-            int pictureBoxDimensions = i_PanelDimensions - 20;
             Panel likedPagePanel = new Panel
             {
                 Size = new Size(i_PanelDimensions, i_PanelDimensions),

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
-using CefSharp.DevTools.Debugger;
-
 using FacebookWrapper.ObjectModel;
 
 namespace BasicFacebookFeatures.Logic

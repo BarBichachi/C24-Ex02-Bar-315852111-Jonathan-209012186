@@ -4,13 +4,11 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Threading;
 using System.Windows.Forms;
+using BasicFacebookFeatures.Settings;
 using BasicFacebookFeatures.Strategy;
-using BasicFacebookFeatures.UI;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
-
 using Timer = System.Windows.Forms.Timer;
-
 
 namespace BasicFacebookFeatures.Logic
 {
@@ -26,11 +24,8 @@ namespace BasicFacebookFeatures.Logic
         private int m_RemainingSeconds;
 
         public event EventHandler TimerElapsed;
-        public event EventHandler TimeUpdated;
 
-        public AppLogic()
-        {
-        }
+        public event EventHandler TimeUpdated;
 
         public static AppLogic Instance => sr_Instance;
 
@@ -58,6 +53,8 @@ namespace BasicFacebookFeatures.Logic
 
         public void Initialize()
         {
+            FacebookService.s_CollectionLimit = 25;
+
             connectToUser();
             new Thread(initializeRandomFacts) { IsBackground = true }.Start();
             initializeTimer();
@@ -67,12 +64,12 @@ namespace BasicFacebookFeatures.Logic
         {
             m_RemainingSeconds = Math.Max(1, (DateTime.Now.Year - (UserBirthday?.Year ?? DateTime.Now.Year))) * 60;
             m_Timer = new Timer { Interval = 1000 };
-            m_Timer.Tick += onTimerTick;
+            m_Timer.Tick += OnTimerTick;
 
             m_Timer.Start();
         }
 
-        private void onTimerTick(object sender, EventArgs e)
+        private void OnTimerTick(object sender, EventArgs e)
         {
             if (--m_RemainingSeconds <= 0)
             {
@@ -156,13 +153,7 @@ namespace BasicFacebookFeatures.Logic
 
         public string GenerateRandomFact()
         {
-            if (m_RandomFacts?.Count > 0)
-            {
-                int index = r_Random.Next(m_RandomFacts.Count);
-                return m_RandomFacts[index];
-            }
-
-            return "No facts available.";
+            return (m_RandomFacts?.Count > 0) ? m_RandomFacts[r_Random.Next(m_RandomFacts.Count)] : "No facts available.";
         }
 
         public void ResetAppSettings()
@@ -181,7 +172,9 @@ namespace BasicFacebookFeatures.Logic
         public Region CreateCircularRegion(int i_Dimensions)
         {
             GraphicsPath gp = new GraphicsPath();
+
             gp.AddEllipse(0, 0, i_Dimensions, i_Dimensions);
+
             return new Region(gp);
         }
 
@@ -193,6 +186,7 @@ namespace BasicFacebookFeatures.Logic
         public void Logout()
         {
             sr_AppSettings.AutoLogin = false;
+
             ResetAppSettings();
             FacebookService.Logout();
         }

@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using BasicFacebookFeatures.ComponentFactories;
 using BasicFacebookFeatures.Logic;
-
 using FacebookWrapper.ObjectModel;
 
 namespace BasicFacebookFeatures.Strategy
