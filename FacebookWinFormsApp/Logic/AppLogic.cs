@@ -65,7 +65,6 @@ namespace BasicFacebookFeatures.Logic
 
         private void initializeTimer()
         {
-            //Initializes a timer that limits app usage based on the user's age (1 year = 1 min of using up)
             m_RemainingSeconds = Math.Max(1, (DateTime.Now.Year - (UserBirthday?.Year ?? DateTime.Now.Year))) * 60;
             m_Timer = new Timer { Interval = 1000 };
             m_Timer.Tick += onTimerTick;

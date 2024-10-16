@@ -30,7 +30,6 @@ namespace BasicFacebookFeatures.UI
             InitializeComponent();
             initializeTabStrategies();
 
-            //r_AppLogic = AppLogic.Instance;
             r_AppLogic.TimerElapsed += onTimerElapsed;
             r_AppLogic.TimeUpdated += onTimeUpdated;
             this.Shown += formMain_Shown;
