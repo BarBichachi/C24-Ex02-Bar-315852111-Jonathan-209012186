@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace BasicFacebookFeatures.ComponentFactories
+namespace BasicFacebookFeatures.UI.ComponentFactories
 {
     internal static class PictureBoxFactory
     {
@@ -21,7 +21,7 @@ namespace BasicFacebookFeatures.ComponentFactories
             }
             else
             {
-                photoPictureBox.Image = Properties.Resources.PlaceholderImage;
+                photoPictureBox.Image = BasicFacebookFeatures.Properties.Resources.PlaceholderImage;
             }
 
             return photoPictureBox;

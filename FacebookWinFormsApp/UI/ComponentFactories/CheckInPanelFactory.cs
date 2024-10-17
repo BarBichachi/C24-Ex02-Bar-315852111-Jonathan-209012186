@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 
-namespace BasicFacebookFeatures.ComponentFactories
+namespace BasicFacebookFeatures.UI.ComponentFactories
 {
     internal static class CheckInPanelFactory
     {
@@ -42,7 +42,7 @@ namespace BasicFacebookFeatures.ComponentFactories
             }
             else
             {
-                pictureBoxCheckIn.Image = Properties.Resources.CheckInPinImage;
+                pictureBoxCheckIn.Image = BasicFacebookFeatures.Properties.Resources.CheckInPinImage;
             }
 
             checkInPanel.Controls.Add(pictureBoxCheckIn);

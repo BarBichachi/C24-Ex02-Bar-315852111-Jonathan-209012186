@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using BasicFacebookFeatures.Logic;
 
-namespace BasicFacebookFeatures.Strategy
+namespace BasicFacebookFeatures.UI.Strategy
 {
     internal abstract class AbstractLayoutPopulationStrategy<T> : ILayoutPopulationStrategy
     {

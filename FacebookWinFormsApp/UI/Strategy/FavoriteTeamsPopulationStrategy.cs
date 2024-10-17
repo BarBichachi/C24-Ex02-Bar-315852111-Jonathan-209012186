@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
-using BasicFacebookFeatures.ComponentFactories;
+using BasicFacebookFeatures.UI.ComponentFactories;
 using BasicFacebookFeatures.Logic;
 
 using FacebookWrapper.ObjectModel;
 
-namespace BasicFacebookFeatures.Strategy
+namespace BasicFacebookFeatures.UI.Strategy
 {
     internal class FavoriteTeamsPopulationStrategy : AbstractLayoutPopulationStrategy<Page>
     {

@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 
-namespace BasicFacebookFeatures.ComponentFactories
+namespace BasicFacebookFeatures.UI.ComponentFactories
 {
     internal static class FriendPanelFactory
     {

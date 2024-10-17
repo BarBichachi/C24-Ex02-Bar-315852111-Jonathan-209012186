@@ -5,7 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Threading;
 using System.Windows.Forms;
 using BasicFacebookFeatures.Settings;
-using BasicFacebookFeatures.Strategy;
+using BasicFacebookFeatures.UI.Strategy;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
 using Timer = System.Windows.Forms.Timer;

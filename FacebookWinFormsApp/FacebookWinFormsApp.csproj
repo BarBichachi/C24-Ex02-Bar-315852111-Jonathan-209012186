@@ -89,21 +89,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComponentFactories\CheckInPanelFactory.cs" />
-    <Compile Include="ComponentFactories\FavoriteTeamPanelFactory.cs" />
-    <Compile Include="ComponentFactories\LikedPagePanelFactory.cs" />
-    <Compile Include="ComponentFactories\PhotoPanelFactory.cs" />
-    <Compile Include="Strategy\AbstractLayoutPopulationStrategy.cs" />
-    <Compile Include="Strategy\CheckInsPopulationStrategy.cs" />
-    <Compile Include="Strategy\FavoriteTeamsPopulationStrategy.cs" />
-    <Compile Include="Strategy\FriendsPopulationStrategy.cs" />
-    <Compile Include="Strategy\ILayoutPopulationStrategy.cs" />
+    <Compile Include="UI\ComponentFactories\CheckInPanelFactory.cs" />
+    <Compile Include="UI\ComponentFactories\FavoriteTeamPanelFactory.cs" />
+    <Compile Include="UI\ComponentFactories\LikedPagePanelFactory.cs" />
+    <Compile Include="UI\ComponentFactories\PhotoPanelFactory.cs" />
+    <Compile Include="UI\Strategy\AbstractLayoutPopulationStrategy.cs" />
+    <Compile Include="UI\Strategy\CheckInsPopulationStrategy.cs" />
+    <Compile Include="UI\Strategy\FavoriteTeamsPopulationStrategy.cs" />
+    <Compile Include="UI\Strategy\FriendsPopulationStrategy.cs" />
+    <Compile Include="UI\Strategy\ILayoutPopulationStrategy.cs" />
     <Compile Include="Logic\AppLogic.cs" />
     <Compile Include="Logic\SimplifiedUser.cs" />
     <Compile Include="Settings\AppSettings.cs" />
-    <Compile Include="Strategy\LikedPagesPopulationStrategy.cs" />
-    <Compile Include="Strategy\PhotosPopulationStrategy.cs" />
-    <Compile Include="Strategy\PostsPopulationStrategy.cs" />
+    <Compile Include="UI\Strategy\LikedPagesPopulationStrategy.cs" />
+    <Compile Include="UI\Strategy\PhotosPopulationStrategy.cs" />
+    <Compile Include="UI\Strategy\PostsPopulationStrategy.cs" />
     <Compile Include="UI\EditProfileForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,9 +122,9 @@
     <Compile Include="UI\FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="ComponentFactories\PostPanelFactory.cs" />
-    <Compile Include="ComponentFactories\FriendPanelFactory.cs" />
-    <Compile Include="ComponentFactories\PictureBoxFactory.cs" />
+    <Compile Include="UI\ComponentFactories\PostPanelFactory.cs" />
+    <Compile Include="UI\ComponentFactories\FriendPanelFactory.cs" />
+    <Compile Include="UI\ComponentFactories\PictureBoxFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="UI\EditProfileForm.resx">

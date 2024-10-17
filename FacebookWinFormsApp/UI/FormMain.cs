@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using BasicFacebookFeatures.Logic;
-using BasicFacebookFeatures.Strategy;
+using BasicFacebookFeatures.UI.Strategy;
 
 namespace BasicFacebookFeatures.UI
 {
