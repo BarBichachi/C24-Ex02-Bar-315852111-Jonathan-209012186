@@ -22,6 +22,7 @@ namespace BasicFacebookFeatures.Logic
         private readonly Random r_Random = new Random();
         private Timer m_Timer;
         private int m_RemainingSeconds;
+        private const int k_CollectionLimit = 25;
 
         public event EventHandler TimerElapsed;
 
@@ -53,11 +54,15 @@ namespace BasicFacebookFeatures.Logic
 
         public void Initialize()
         {
-            FacebookService.s_CollectionLimit = 25;
-
+            setCollectionLimit(k_CollectionLimit);
             connectToUser();
             new Thread(initializeRandomFacts) { IsBackground = true }.Start();
             initializeTimer();
+        }
+
+        private void setCollectionLimit(int i_Limit)
+        {
+            FacebookService.s_CollectionLimit = i_Limit;
         }
 
         private void initializeTimer()
