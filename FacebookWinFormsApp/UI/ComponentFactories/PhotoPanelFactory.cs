@@ -14,7 +14,7 @@ namespace BasicFacebookFeatures.UI.ComponentFactories
                 BorderStyle = BorderStyle.FixedSingle,
                 Margin = new Padding(3)
             };
-            PictureBox photoPictureBox = PictureBoxFactory.CreatePictureBox(i_Photo.PictureNormalURL, i_PanelDimensions);
+            LazyPictureBox photoPictureBox = PictureBoxFactory.CreateLazyPictureBox(i_Photo.PictureNormalURL, i_PanelDimensions);
 
             photoPanel.Controls.Add(photoPictureBox);
 

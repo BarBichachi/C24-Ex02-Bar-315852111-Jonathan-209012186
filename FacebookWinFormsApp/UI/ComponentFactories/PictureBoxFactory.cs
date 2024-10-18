@@ -1,13 +1,14 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace BasicFacebookFeatures.UI.ComponentFactories
 {
     internal static class PictureBoxFactory
     {
-        public static PictureBox CreatePictureBox(string i_PhotoUrl, int i_PictureBoxDimensions)
+        public static LazyPictureBox CreateLazyPictureBox(string i_PhotoUrl, int i_PictureBoxDimensions)
         {
-            PictureBox photoPictureBox = new PictureBox
+            LazyPictureBox photoPictureBox = new LazyPictureBox
             {
                 Size = new Size(i_PictureBoxDimensions, i_PictureBoxDimensions),
                 BorderStyle = BorderStyle.FixedSingle,
@@ -17,7 +18,7 @@ namespace BasicFacebookFeatures.UI.ComponentFactories
 
             if (!string.IsNullOrEmpty(i_PhotoUrl))
             {
-                photoPictureBox.LoadAsync(i_PhotoUrl);
+                photoPictureBox.Load(i_PhotoUrl);
             }
             else
             {
@@ -26,5 +27,6 @@ namespace BasicFacebookFeatures.UI.ComponentFactories
 
             return photoPictureBox;
         }
+
     }
 }

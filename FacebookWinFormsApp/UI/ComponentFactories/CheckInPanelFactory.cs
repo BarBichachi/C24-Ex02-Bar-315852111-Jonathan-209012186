@@ -29,7 +29,7 @@ namespace BasicFacebookFeatures.UI.ComponentFactories
                 Font = new Font("Arial", 8),
                 AutoSize = true
             };
-            PictureBox pictureBoxCheckIn = new PictureBox
+            LazyPictureBox pictureBoxCheckIn = new LazyPictureBox
             {
                 Size = new Size(100, 100),
                 Location = new Point(10, 10),
@@ -38,7 +38,7 @@ namespace BasicFacebookFeatures.UI.ComponentFactories
 
             if (!string.IsNullOrEmpty(i_CheckIn.PictureURL))
             {
-                pictureBoxCheckIn.LoadAsync(i_CheckIn.PictureURL);
+                pictureBoxCheckIn.Load(i_CheckIn.PictureURL);
             }
             else
             {

@@ -89,6 +89,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UI\LazyPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\ComponentFactories\CheckInPanelFactory.cs" />
     <Compile Include="UI\ComponentFactories\FavoriteTeamPanelFactory.cs" />
     <Compile Include="UI\ComponentFactories\LikedPagePanelFactory.cs" />

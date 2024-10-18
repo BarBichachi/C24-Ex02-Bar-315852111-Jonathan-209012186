@@ -40,6 +40,12 @@ namespace BasicFacebookFeatures.UI
                 { tabPageProfilePhotos, () => new PhotosPopulationStrategy() }
             };
         }
+        private void OnFormShown(object sender, EventArgs e)
+        {
+            Application.DoEvents();
+            resetScrollPosition();
+            new Thread(initiateProfilePage).Start();
+        }
 
         protected override void OnClosing(CancelEventArgs e)
         {
@@ -51,44 +57,64 @@ namespace BasicFacebookFeatures.UI
         {
             try
             {
-                initiateProfileElements();
-                initiateProfileAboutPanel();
-                initiateProfileFlowLayoutPanels();
+                new Thread(() =>
+                {
+                    initiateProfileElements();
+                    initiateProfileAboutPanel();
+                    initiateProfileFlowLayoutPanels();
+
+                    this.Invoke(new Action(() => loadingFinished()));
+                }).Start();
             }
             catch (Exception e)
             {
-                throw new ApplicationException("Initiating the profile page has failed! >\n" + e.Message, e);
-            }
-            finally
-            {
-                loadingFinished();
+                this.Invoke(new Action(() =>
+                {
+                    throw new ApplicationException("Initiating the profile page has failed! >\n" + e.Message, e);
+                }));
             }
         }
 
         private void initiateProfileElements()
         {
             Image coverImage = r_AppLogic.UserCoverImage;
-            pictureBoxProfileCover.Image = coverImage ?? BasicFacebookFeatures.Properties.Resources.PlaceholderImage;
-            pictureBoxProfilePicture.Image = r_AppLogic.UserProfileImage;
-            labelProfileFullName.Text = string.IsNullOrEmpty(r_AppLogic.UserName) ? "Unavailable" : r_AppLogic.UserName;
-            labelProfileFullName.Visible = true;
-            labelProfileNumOfFriends.Text = $@"{r_AppLogic.UserFriendsCount} friends";
-            labelProfileNumOfFriends.Visible = true;
-            pictureBoxProfilePicture.Region = r_AppLogic.CreateCircularRegion(pictureBoxProfilePicture.Width);
+            Image profileImage = r_AppLogic.UserProfileImage;
+
+            this.Invoke(new Action(() =>
+            {
+                pictureBoxProfileCover.Image = coverImage ?? BasicFacebookFeatures.Properties.Resources.PlaceholderImage;
+                pictureBoxProfilePicture.Image = profileImage;
+                labelProfileFullName.Text = string.IsNullOrEmpty(r_AppLogic.UserName) ? "Unavailable" : r_AppLogic.UserName;
+                labelProfileFullName.Visible = true;
+                labelProfileNumOfFriends.Text = $@"{r_AppLogic.UserFriendsCount} friends";
+                labelProfileNumOfFriends.Visible = true;
+                pictureBoxProfilePicture.Region = r_AppLogic.CreateCircularRegion(pictureBoxProfilePicture.Width);
+            }));
         }
 
         private void initiateProfileAboutPanel()
         {
-            labelProfilePostsAboutBirthday.Text = $@"Birthday - {(r_AppLogic.UserBirthday.HasValue ? r_AppLogic.UserBirthday.Value.ToString("dd/MM/yyyy") : "Unavailable")}";
-            labelProfilePostsAboutCity.Text = $@"Lives in - {(string.IsNullOrEmpty(r_AppLogic.UserCity) ? "Unavailable" : r_AppLogic.UserCity)}";
-            labelProfilePostsAboutGender.Text = $@"Gender - {(r_AppLogic.UserGender.HasValue ? r_AppLogic.UserGender.Value.ToString() : "Unavailable")}";
+            string birthday = r_AppLogic.UserBirthday.HasValue ? r_AppLogic.UserBirthday.Value.ToString("dd/MM/yyyy") : "Unavailable";
+            string city = string.IsNullOrEmpty(r_AppLogic.UserCity) ? "Unavailable" : r_AppLogic.UserCity;
+            string gender = r_AppLogic.UserGender.HasValue ? r_AppLogic.UserGender.Value.ToString() : "Unavailable";
+
+            this.Invoke(new Action(() =>
+            {
+                labelProfilePostsAboutBirthday.Text = $@"Birthday - {birthday}";
+                labelProfilePostsAboutCity.Text = $@"Lives in - {city}";
+                labelProfilePostsAboutGender.Text = $@"Gender - {gender}";
+            }));
         }
+
 
         private void initiateProfileFlowLayoutPanels()
         {
-            populateLayout(flowLayoutPanelProfilePostsPhotos, k_ColumnsForProfile, k_BoxesForProfile, new PhotosPopulationStrategy());
-            populateLayout(flowLayoutPanelProfilePostsFriends, k_ColumnsForProfile, k_BoxesForProfile, new FriendsPopulationStrategy());
-            populateLayout(flowLayoutPanelPosts, k_ColumnsForProfile + 1, k_BoxesForTab, new PostsPopulationStrategy());
+            new Thread(() =>
+            {
+                populateLayout(flowLayoutPanelProfilePostsPhotos, k_ColumnsForProfile, k_BoxesForProfile, new PhotosPopulationStrategy());
+                populateLayout(flowLayoutPanelProfilePostsFriends, k_ColumnsForProfile, k_BoxesForProfile, new FriendsPopulationStrategy());
+                populateLayout(flowLayoutPanelPosts, k_ColumnsForProfile + 1, k_BoxesForTab, new PostsPopulationStrategy());
+            }).Start();
         }
 
         private void populateLayout(FlowLayoutPanel i_FlowLayoutPanel, int i_NumberOfColumns, int i_MaxBoxes, ILayoutPopulationStrategy i_Strategy)
@@ -106,20 +132,25 @@ namespace BasicFacebookFeatures.UI
         {
             if (m_TabPopulationStrategies.TryGetValue(i_SelectedTab, out Func<ILayoutPopulationStrategy> populationStrategyFunc))
             {
-                new Thread(() =>
+                Thread thread = new Thread(() =>
                 {
                     try
                     {
-                        this.Invoke((Action)(() =>
+                        FlowLayoutPanel flowLayoutPanel = getFlowLayoutForTab(i_SelectedTab);
+                        ILayoutPopulationStrategy strategy = populationStrategyFunc();
+
+                        this.Invoke(new Action(() =>
                         {
-                            populateLayout(getFlowLayoutForTab(i_SelectedTab), k_ColumnsForTab, k_BoxesForTab, populationStrategyFunc());
+                            populateLayout(flowLayoutPanel, k_ColumnsForTab, k_BoxesForTab, strategy);
                         }));
                     }
                     catch (Exception e)
                     {
-                        throw new ApplicationException($"An error occurred while populating {i_SelectedTab.Text}!\n\n" + e.Message, e);
+                        MessageBox.Show($"Error populating {i_SelectedTab.Text}: {e.Message}");
                     }
-                }) { IsBackground = true }.Start(); 
+                });
+
+                thread.Start();
             }
         }
 
@@ -228,13 +259,6 @@ namespace BasicFacebookFeatures.UI
             labelProfileFullName.Text = string.IsNullOrEmpty(r_AppLogic.UserName) ? "Unavailable" : r_AppLogic.UserName;
             labelProfilePostsAboutBirthday.Text = $@"Birthday - {(r_AppLogic.UserBirthday.HasValue ? r_AppLogic.UserBirthday.Value.ToString("dd/MM/yyyy") : "Unavailable")}";
             labelProfilePostsAboutCity.Text = $@"Lives in - {(string.IsNullOrEmpty(r_AppLogic.UserCity) ? "Unavailable" : r_AppLogic.UserCity)}";
-        }
-
-        private void OnFormShown(object sender, EventArgs e)
-        {
-            Application.DoEvents();
-            resetScrollPosition();
-            initiateProfilePage();
         }
 
         private void OnTimerElapsed(object sender, EventArgs e)

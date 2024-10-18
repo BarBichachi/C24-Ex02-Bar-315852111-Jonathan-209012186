@@ -17,7 +17,10 @@ namespace BasicFacebookFeatures.UI.Strategy
                 {
                     Panel itemPanel = CreatePanel(item, panelDimensions);
 
-                    i_FlowLayoutPanel.Controls.Add(itemPanel);
+                    i_FlowLayoutPanel.Invoke(new Action(() =>
+                    {
+                        i_FlowLayoutPanel.Controls.Add(itemPanel);
+                    }));
 
                     if (i_FlowLayoutPanel.Controls.Count == i_MaxBoxes)
                     {

@@ -56,7 +56,7 @@ namespace BasicFacebookFeatures.Logic
         {
             setCollectionLimit(k_CollectionLimit);
             connectToUser();
-            new Thread(initializeRandomFacts) { IsBackground = true }.Start();
+            new Thread(initializeRandomFacts).Start();
             initializeTimer();
         }
 
@@ -139,21 +139,28 @@ namespace BasicFacebookFeatures.Logic
 
         private void initializeRandomFacts()
         {
-            int facebookFoundedAge = Math.Max(0, 2004 - (m_SimplifiedUser.Birthday?.Year ?? 2004));
-            string birthdayString = m_SimplifiedUser.Birthday?.ToString("dd/MM/yyyy") ?? "Not specified";
-
-            m_RandomFacts = new List<string>
+            try
             {
-                $"You have {m_SimplifiedUser.Posts.Count} posts.",
-                $"You have liked {m_SimplifiedUser.LikedPages.Count} pages so far.",
-                $"You’ve checked in at {m_SimplifiedUser.Checkins.Count} different places!",
-                $"You have {m_SimplifiedUser.Albums.Count} albums.",
-                $"You have {m_SimplifiedUser.Friends.Count} friends.",
-                $"Your birthday is on - {birthdayString}",
-                facebookFoundedAge == 0
-                    ? "You were not born when Facebook was founded or you didn't insert your birthday!"
-                    : $"You were {facebookFoundedAge} years old when Facebook was founded."
-            };
+                int facebookFoundedAge = Math.Max(0, 2004 - (m_SimplifiedUser.Birthday?.Year ?? 2004));
+                string birthdayString = m_SimplifiedUser.Birthday?.ToString("dd/MM/yyyy") ?? "Not specified";
+
+                m_RandomFacts = new List<string>
+                {
+                    $"You have {m_SimplifiedUser.Posts.Count} posts.",
+                    $"You have liked {m_SimplifiedUser.LikedPages.Count} pages so far.",
+                    $"You’ve checked in at {m_SimplifiedUser.Checkins.Count} different places!",
+                    $"You have {m_SimplifiedUser.Albums.Count} albums.",
+                    $"You have {m_SimplifiedUser.Friends.Count} friends.",
+                    $"Your birthday is on - {birthdayString}",
+                    facebookFoundedAge == 0
+                        ? "You were not born when Facebook was founded or you didn't insert your birthday!"
+                        : $"You were {facebookFoundedAge} years old when Facebook was founded."
+                };
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Error initializing random facts: {e.Message}");
+            }
         }
 
         public string GenerateRandomFact()
