@@ -183,11 +183,6 @@ namespace BasicFacebookFeatures.Logic
             return new Region(gp);
         }
 
-        public void PopulateLayout(FlowLayoutPanel i_FlowLayoutPanel, int i_NumberOfColumns, int i_MaxBoxes, ILayoutPopulationStrategy i_Strategy)
-        {
-            i_Strategy.PopulateLayout(m_SimplifiedUser, i_FlowLayoutPanel, i_NumberOfColumns, i_MaxBoxes);
-        }
-
         public void Logout()
         {
             sr_AppSettings.AutoLogin = false;

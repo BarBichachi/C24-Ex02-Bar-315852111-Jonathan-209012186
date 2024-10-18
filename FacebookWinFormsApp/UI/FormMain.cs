@@ -86,9 +86,14 @@ namespace BasicFacebookFeatures.UI
 
         private void initiateProfileFlowLayoutPanels()
         {
-            r_AppLogic.PopulateLayout(flowLayoutPanelProfilePostsPhotos, k_ColumnsForProfile, k_BoxesForProfile, new PhotosPopulationStrategy());
-            r_AppLogic.PopulateLayout(flowLayoutPanelProfilePostsFriends, k_ColumnsForProfile, k_BoxesForProfile, new FriendsPopulationStrategy());
-            r_AppLogic.PopulateLayout(flowLayoutPanelPosts, k_ColumnsForProfile + 1, k_BoxesForTab, new PostsPopulationStrategy());
+            populateLayout(flowLayoutPanelProfilePostsPhotos, k_ColumnsForProfile, k_BoxesForProfile, new PhotosPopulationStrategy());
+            populateLayout(flowLayoutPanelProfilePostsFriends, k_ColumnsForProfile, k_BoxesForProfile, new FriendsPopulationStrategy());
+            populateLayout(flowLayoutPanelPosts, k_ColumnsForProfile + 1, k_BoxesForTab, new PostsPopulationStrategy());
+        }
+
+        private void populateLayout(FlowLayoutPanel i_FlowLayoutPanel, int i_NumberOfColumns, int i_MaxBoxes, ILayoutPopulationStrategy i_Strategy)
+        {
+            i_Strategy.PopulateLayout(r_AppLogic.SimplifiedUser, i_FlowLayoutPanel, i_NumberOfColumns, i_MaxBoxes);
         }
 
         private void loadingFinished()
@@ -107,7 +112,7 @@ namespace BasicFacebookFeatures.UI
                     {
                         this.Invoke((Action)(() =>
                         {
-                            r_AppLogic.PopulateLayout(getFlowLayoutForTab(i_SelectedTab), k_ColumnsForTab, k_BoxesForTab, populationStrategyFunc());
+                            populateLayout(getFlowLayoutForTab(i_SelectedTab), k_ColumnsForTab, k_BoxesForTab, populationStrategyFunc());
                         }));
                     }
                     catch (Exception e)
